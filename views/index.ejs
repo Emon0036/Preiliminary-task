@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <%- include("partials/header") %>
+
+    <main class="workspace" id="api">
+      <section class="panel request-panel" aria-labelledby="request-title">
+        <div class="panel-heading">
+          <h1 id="request-title">Request Builder</h1>
+          <div class="button-group">
+            <button class="button secondary" id="loadSample" type="button">Load sample</button>
+            <button class="button secondary" id="clearButton" type="button">Clear</button>
+            <button class="button primary" id="analyzeButton" type="button">POST /analyze-ticket</button>
+          </div>
+        </div>
+
+        <div class="field-grid three">
+          <label class="field">
+            <span>ticket_id</span>
+            <input id="ticketId" type="text" value="TKT-LOCAL-1" autocomplete="off">
+          </label>
+
+          <label class="field">
+            <span>language</span>
+            <select id="language">
+              <option value="en">en</option>
+              <option value="bn">bn</option>
+              <option value="mixed">mixed</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>channel</span>
+            <select id="channel">
+              <option value="in_app_chat">in_app_chat</option>
+              <option value="call_center">call_center</option>
+              <option value="email">email</option>
+              <option value="merchant_portal">merchant_portal</option>
+              <option value="field_agent">field_agent</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="field-grid two">
+          <label class="field">
+            <span>user_type</span>
+            <select id="userType">
+              <option value="customer">customer</option>
+              <option value="merchant">merchant</option>
+              <option value="agent">agent</option>
+              <option value="unknown">unknown</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>campaign_context</span>
+            <input id="campaignContext" type="text" value="boishakh_bonanza_day_1" autocomplete="off">
+          </label>
+        </div>
+
+        <label class="field">
+          <span>complaint</span>
+          <textarea id="complaint" class="complaint-input" spellcheck="false">I sent 5000 taka to a wrong number around 2pm today. Please help me get it back.</textarea>
+        </label>
+
+        <label class="field">
+          <span>transaction_history (JSON array)</span>
+          <textarea id="transactionHistory" class="history-input" spellcheck="false">[
+  {
+    "transaction_id": "TXN-9101",
+    "timestamp": "2026-04-14T14:08:22Z",
+    "type": "transfer",
+    "amount": 5000,
+    "counterparty": "+8801719876543",
+    "status": "completed"
+  }
+]</textarea>
+        </label>
+
+        <p class="helper-text">
+          The live judge endpoint is <code>POST /analyze-ticket</code> with <code>Content-Type: application/json</code>.
+        </p>
+      </section>
+
+      <section class="panel response-panel" aria-labelledby="response-title">
+        <div class="panel-heading">
+          <h1 id="response-title">Response</h1>
+          <div class="response-actions">
+            <span class="meta-pill" id="statusCode">status: idle</span>
+            <span class="meta-pill" id="latency">latency: --</span>
+            <button class="button secondary compact" id="copyResponse" type="button">Copy</button>
+          </div>
+        </div>
+
+        <pre class="response-view" id="responseBody">// response will appear here</pre>
+
+        <p class="helper-text">
+          Required fields: ticket_id, relevant_transaction_id, evidence_verdict, case_type, severity, department,
+          agent_summary, recommended_next_action, customer_reply, human_review_required. Optional: confidence,
+          reason_codes.
+        </p>
+      </section>
+    </main>
+
+    <script src="/ui.js"></script>
+  </body>
+</html>
